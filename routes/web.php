@@ -18,6 +18,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('home');
     });
+
+    Route::get('/logout', [AuthController::class, 'logout']);
 });
 
 Route::middleware('guest')->group(function () {
