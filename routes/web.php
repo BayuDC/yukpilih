@@ -16,9 +16,7 @@ use App\Http\Controllers\PollController;
 */
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', function () {
-        return view('home');
-    });
+    Route::get('/', [PollController::class, 'index']);
 
     Route::get('/poll', [PollController::class, 'index']);
     Route::get('/poll/create', [PollController::class, 'create']);

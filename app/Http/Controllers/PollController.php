@@ -9,7 +9,9 @@ use App\Models\Poll;
 
 class PollController extends Controller {
     public function index() {
-        return view('home');
+        return view('poll.index', [
+            'polls' => Poll::with(['creator', 'choices'])->get()
+        ]);
     }
     public function create() {
         return view('poll.create');
