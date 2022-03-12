@@ -20,6 +20,13 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
+                @can('manage-poll')
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="/poll/create" class="nav-link active">Add Poll</a>
+                    </li>
+                </ul>
+                @endcan
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a href="/logout" class="nav-link active">Logout</a>
