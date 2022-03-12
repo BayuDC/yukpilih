@@ -26,13 +26,13 @@ class DatabaseSeeder extends Seeder {
 
         User::create([
             'username' => 'admin',
-            'password' => 'admin',
+            'password' => bcrypt('admin'),
             'role' => 'admin',
             'division_id' => 3
         ]);
         User::create([
             'username' => 'user',
-            'password' => 'user',
+            'password' => bcrypt('user'),
             'role' => 'user',
             'division_id' => 3
         ]);
