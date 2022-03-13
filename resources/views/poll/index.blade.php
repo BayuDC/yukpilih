@@ -11,7 +11,12 @@
             @if(Auth::user()->role == 'user')
             @foreach($poll->choices as $choice)
             <div class="mb-2">
-                <button class="btn btn-dark">{{ $choice->choice }}</button>
+                <form action="/poll/vote" method="post">
+                    @csrf
+                    <input type="hidden" name="poll" value="{{ $poll->id }}">
+                    <input type="hidden" name="choice" value="{{ $choice->id }}">
+                    <button type="submit" class="btn btn-dark">{{ $choice->choice }}</button>
+                </form>
             </div>
             @endforeach
             @endif

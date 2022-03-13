@@ -6,6 +6,7 @@ use App\Models\Choice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Poll;
+use App\Models\Vote;
 
 class PollController extends Controller {
     public function index() {
@@ -48,6 +49,21 @@ class PollController extends Controller {
             $choice->poll_id = $poll->id;
             $choice->save();
         }
+
+        return redirect('/poll');
+    }
+    public function storeVote(Request $request) {
+        $request->validate([
+            'poll' => 'exists:App\Models\Poll,id',
+            'choice' => 'exists:App\Models\Choice,id',
+        ]);
+
+        $vote = new Vote;
+        $vote->poll_id = $request->poll;
+        $vote->choice_id = $request->choice;
+        $vote->user_id = Auth::user()->id;
+        $vote->division_id = Auth::user()->division->id;
+        $vote->save();
 
         return redirect('/poll');
     }
