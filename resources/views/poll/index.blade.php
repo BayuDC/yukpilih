@@ -4,11 +4,11 @@
 <div class="row">
     @foreach($polls as $poll)
     <div class="col-md-6 col-12">
-        <div class="bg-light border p-3 mb-3">
+        <div class="bg-light border p-3 mb-3 h-100">
             <h3>{{ $poll->title }}</h3>
             <p class="text-muted">created by {{ $poll->creator->username }}</p>
             <p>{{ $poll->description }}</p>
-            @if(Auth::user()->role == 'user')
+            @can('vote-poll', $poll)
             @foreach($poll->choices as $choice)
             <div class="mb-2">
                 <form action="/poll/vote" method="post">
@@ -19,7 +19,7 @@
                 </form>
             </div>
             @endforeach
-            @endif
+            @endcan
         </div>
     </div>
     @endforeach

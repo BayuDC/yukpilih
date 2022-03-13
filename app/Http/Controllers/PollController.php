@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Choice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use App\Models\Poll;
 use App\Models\Vote;
 
@@ -18,6 +19,8 @@ class PollController extends Controller {
         return view('poll.create');
     }
     public function store(Request $request) {
+        if (Gate::denies('manage-poll')) abort(403);
+
         $request->validate([
             'title' => 'required',
             'description' => 'required',
@@ -53,6 +56,8 @@ class PollController extends Controller {
         return redirect('/poll');
     }
     public function storeVote(Request $request) {
+        if (Gate::denies('vote-poll')) abort(403);
+
         $request->validate([
             'poll' => 'exists:App\Models\Poll,id',
             'choice' => 'exists:App\Models\Choice,id',
