@@ -9,6 +9,8 @@ use App\Models\Poll;
 class Choice extends Model {
     use HasFactory;
 
+    protected $fillable = ['choice', 'poll_id'];
+
     public function poll() {
         return $this->belongsTo(Poll::class);
     }

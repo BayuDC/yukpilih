@@ -25,8 +25,7 @@ class PollController extends Controller {
             'title' => 'required',
             'description' => 'required',
             'deadline' => 'required|date',
-            'choice1' => 'required',
-            'choice2' => 'required',
+            'choices' => 'required|min:2'
         ]);
 
         $poll = new Poll;
@@ -36,21 +35,11 @@ class PollController extends Controller {
         $poll->created_by = Auth::user()->id;
         $poll->save();
 
-        $choice = new Choice;
-        $choice->choice = $request->choice1;
-        $choice->poll_id = $poll->id;
-        $choice->save();
-
-        $choice = new Choice;
-        $choice->choice = $request->choice2;
-        $choice->poll_id = $poll->id;
-        $choice->save();
-
-        if ($request->choice3) {
-            $choice = new Choice;
-            $choice->choice = $request->choice3;
-            $choice->poll_id = $poll->id;
-            $choice->save();
+        foreach ($request->choices as $choice) {
+            Choice::create([
+                'choice' => $choice,
+                'poll_id' => $poll->id
+            ]);
         }
 
         return redirect('/poll');

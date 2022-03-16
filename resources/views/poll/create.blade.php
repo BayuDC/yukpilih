@@ -32,7 +32,7 @@
             <div class="mb-3">
                 <label class="form-label" for="choices">Choices</label>
                 <div id="choices">
-                    <!-- <input type="text" class="form-control mb-2" name="choices[]" required> -->
+                    <input type="text" class="form-control mb-2" name="choices[]">
                 </div>
                 @error('choices')
                 <small class="text-danger">{{ $message }}</small>
@@ -40,7 +40,7 @@
             </div>
             <div>
                 <button type="submit" class="btn btn-primary">Create Poll</button>
-                <button type="button" id="btn-add-choice" class="btn btn-secondary">Add Choice</button>
+                <button type="button" id="btn-add-choice" class="btn btn-secondary" disabled>Add Choice</button>
             </div>
         </form>
     </div>
@@ -53,14 +53,7 @@
     const choices = document.getElementById('choices');
     const btnChoice = document.getElementById('btn-add-choice');
 
-    btnChoice.addEventListener('click', () => {
-        if (choices.lastChild && choices.lastChild.value == false) return;
-
-        const choice = document.createElement('input');
-        choice.setAttribute('name', 'choices[]');
-        choice.setAttribute('class', 'form-control mb-2');
-        choice.setAttribute('required', '');
-
+    const setChoiceEvent = choice => {
         choice.addEventListener('keypress', e => {
             if (e.key != 'Enter') return;
 
@@ -77,6 +70,8 @@
 
             if (!choices.childElementCount)
                 btnChoice.removeAttribute('disabled');
+
+            choices.lastElementChild?.focus();
         });
 
         choice.addEventListener('input', e => {
@@ -85,11 +80,23 @@
 
             btnChoice.removeAttribute('disabled');
         })
+    }
+
+    btnChoice.addEventListener('click', () => {
+        if (choices.lastChild && choices.lastChild.value == false) return;
+
+        const choice = document.createElement('input');
+        choice.setAttribute('name', 'choices[]');
+        choice.setAttribute('class', 'form-control mb-2');
+
+        setChoiceEvent(choice);
 
         choices.appendChild(choice);
         btnChoice.setAttribute('disabled', '');
     });
 
-    btnChoice.click();
+    [...choices.children].forEach(child => {
+        setChoiceEvent(child);
+    })
 </script>
 @endsection
