@@ -35,19 +35,19 @@ return new class extends Migration {
      */
     public function down() {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign('division_id');
+            $table->dropColumn(['division_id']);
         });
         Schema::table('polls', function (Blueprint $table) {
-            $table->dropForeign('created_by');
+            $table->dropColumn(['created_by']);
         });
         Schema::table('choices', function (Blueprint $table) {
-            $table->dropForeign('poll_id');
+            $table->dropColumn(['poll_id']);
         });
         Schema::table('votes', function (Blueprint $table) {
-            $table->dropForeign('choice_id');
-            $table->dropForeign('user_id');
-            $table->dropForeign('poll_id');
-            $table->dropForeign('division_id');
+            $table->dropColumn(['choice_id']);
+            $table->dropColumn(['user_id']);
+            $table->dropColumn(['poll_id']);
+            $table->dropColumn(['division_id']);
         });
     }
 };
