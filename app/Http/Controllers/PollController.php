@@ -44,16 +44,15 @@ class PollController extends Controller {
 
         return redirect('/poll');
     }
-    public function storeVote(Request $request) {
-        if (Gate::denies('vote-poll')) abort(403);
+    public function storeVote(Poll $poll, Request $request) {
+        if (Gate::denies('vote-poll', $poll)) abort(403);
 
         $request->validate([
-            'poll' => 'exists:App\Models\Poll,id',
             'choice' => 'exists:App\Models\Choice,id',
         ]);
 
         $vote = new Vote;
-        $vote->poll_id = $request->poll;
+        $vote->poll_id = $poll->id;
         $vote->choice_id = $request->choice;
         $vote->user_id = Auth::user()->id;
         $vote->division_id = Auth::user()->division->id;
