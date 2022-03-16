@@ -30,31 +30,66 @@
                 @enderror
             </div>
             <div class="mb-3">
-                <label class="form-label" for="choice1">Choice 1</label>
-                <input type="text" value="{{ old('choice1') }}" class="form-control mb-2" name="choice1" id="choice1">
-                @error('choice1')
-                <small class="text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-            <div class="mb-3">
-                <label class="form-label" for="choice2">Choice 3</label>
-                <input type="text" value="{{ old('choide2') }}" class="form-control mb-2" name="choice2" id="choice2">
-                @error('choice2')
-                <small class="text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-            <div class="mb-4">
-                <label class="form-label" for="choice3">Choice 3</label>
-                <input type="text" value="{{ old('choice3') }}" class="form-control mb-2" name="choice3" id="choice3">
-                @error('choice3')
+                <label class="form-label" for="choices">Choices</label>
+                <div id="choices">
+                    <!-- <input type="text" class="form-control mb-2" name="choices[]" required> -->
+                </div>
+                @error('choices')
                 <small class="text-danger">{{ $message }}</small>
                 @enderror
             </div>
             <div>
-                <button class="btn btn-primary">Create</button>
+                <button type="submit" class="btn btn-primary">Create Poll</button>
+                <button type="button" id="btn-add-choice" class="btn btn-secondary">Add Choice</button>
             </div>
         </form>
     </div>
 </div>
 
+@endsection
+
+@section('script')
+<script>
+    const choices = document.getElementById('choices');
+    const btnChoice = document.getElementById('btn-add-choice');
+
+    btnChoice.addEventListener('click', () => {
+        if (choices.lastChild && choices.lastChild.value == false) return;
+
+        const choice = document.createElement('input');
+        choice.setAttribute('name', 'choices[]');
+        choice.setAttribute('class', 'form-control mb-2');
+        choice.setAttribute('required', '');
+
+        choice.addEventListener('keypress', e => {
+            if (e.key != 'Enter') return;
+
+            e.preventDefault();
+
+            btnChoice.click();
+            choices.lastChild.focus();
+
+        });
+        choice.addEventListener('keydown', e => {
+            if (e.key != 'Backspace' || choice.value) return;
+
+            choices.removeChild(choice);
+
+            if (!choices.childElementCount)
+                btnChoice.removeAttribute('disabled');
+        });
+
+        choice.addEventListener('input', e => {
+            if (!choice.value)
+                return btnChoice.setAttribute('disabled', '');
+
+            btnChoice.removeAttribute('disabled');
+        })
+
+        choices.appendChild(choice);
+        btnChoice.setAttribute('disabled', '');
+    });
+
+    btnChoice.click();
+</script>
 @endsection
