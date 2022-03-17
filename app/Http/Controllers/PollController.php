@@ -8,11 +8,44 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Poll;
 use App\Models\Vote;
+use App\Models\Division;
 
 class PollController extends Controller {
     public function index() {
+        $polls = Poll::with(['creator', 'choices'])->get();
+        $divisions = Division::with('votes')->get();
+
+        foreach ($polls as $poll) {
+            $poll->totalPoint = 0;
+
+            foreach ($divisions as $division) {
+                $maxCount = 0;
+                $winners = [];
+
+                foreach ($poll->choices as $choice) {
+                    $count = $division->votes->where('choice_id', $choice->id)->count();
+
+                    if ($maxCount < $count) {
+                        $maxCount = $count;
+                        $winners = [$choice];
+                    } else if ($maxCount == $count && $maxCount != 0) {
+                        array_push($winners, $choice);
+                    }
+                }
+
+                foreach ($winners as $winner) {
+                    $point = 1 / count($winners);
+
+                    if (!$winner->point) $winner->point = $point;
+                    else $winner->point += $point;
+
+                    $poll->totalPoint += $point;
+                }
+            }
+        }
+
         return view('poll.index', [
-            'polls' => Poll::with(['creator', 'choices'])->get()
+            'polls' => $polls
         ]);
     }
     public function create() {

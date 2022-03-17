@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Choice;
 use App\Models\User;
+use App\Models\Vote;
 
 class Poll extends Model {
     use HasFactory;
@@ -15,5 +16,8 @@ class Poll extends Model {
     }
     public function choices() {
         return $this->hasMany(Choice::class);
+    }
+    public function votes() {
+        return $this->hasMany(Vote::class);
     }
 }
