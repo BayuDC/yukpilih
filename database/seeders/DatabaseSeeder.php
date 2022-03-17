@@ -18,23 +18,30 @@ class DatabaseSeeder extends Seeder {
             'name' => 'Payment'
         ]);
         Division::create([
-            'name' => 'Design'
+            'name' => 'Procurement'
         ]);
         Division::create([
-            'name' => 'Developer'
+            'name' => 'Finance'
         ]);
+        Division::create([
+            'name' => 'IT'
+        ]);
+
+
+        for ($i = 1; $i <= 40; $i++) {
+            User::create([
+                'username' => 'user' . $i,
+                'password' => bcrypt('user' . $i),
+                'role' => 'user',
+                'division_id' => ceil($i / 10)
+            ]);
+        }
 
         User::create([
             'username' => 'admin',
             'password' => bcrypt('admin'),
             'role' => 'admin',
-            'division_id' => 3
-        ]);
-        User::create([
-            'username' => 'user',
-            'password' => bcrypt('user'),
-            'role' => 'user',
-            'division_id' => 3
+            'division_id' => 4
         ]);
     }
 }
