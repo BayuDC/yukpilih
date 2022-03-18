@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/poll/{poll:id}/vote', [PollController::class, 'storeVote']);
 
     Route::get('/user/create', [UserController::class, 'create']);
+    Route::post('/user', [UserController::class, 'store']);
 
     Route::get('/logout', [AuthController::class, 'logout']);
 });
