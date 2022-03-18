@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Poll;
 use App\Models\Vote;
@@ -34,6 +35,7 @@ class AuthServiceProvider extends ServiceProvider {
         Gate::define('vote-poll', function (User $user, Poll $poll) {
             if ($user->role == 'admin') return false;
             if (Vote::where('user_id', $user->id)->where('poll_id', $poll->id)->exists()) return false;
+            if (Carbon::create($poll->deadline, $tz = 'Asia/Jakarta')->isPast()) return false;
 
             return true;
         });
