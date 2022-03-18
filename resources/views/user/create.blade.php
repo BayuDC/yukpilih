@@ -5,6 +5,9 @@
 
 <div class="row">
     <div class="col-lg-4 col-md-6 col">
+        @if(session('status') == 'success')
+        <div class="alert alert-success">User registered successfully</div>
+        @endif
         <form action="/user" method="post">
             @csrf
             <div class="mb-3">
