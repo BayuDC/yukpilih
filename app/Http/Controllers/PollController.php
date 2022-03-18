@@ -12,7 +12,7 @@ use App\Models\Division;
 
 class PollController extends Controller {
     public function index() {
-        $polls = Poll::with(['creator', 'choices'])->get();
+        $polls = Poll::with(['creator', 'choices'])->orderBy('created_at', 'desc')->get();
         $divisions = Division::with('votes')->get();
 
         foreach ($polls as $poll) {
