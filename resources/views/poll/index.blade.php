@@ -22,9 +22,11 @@
             @foreach($poll->choices as $choice)
             <div class="mt-2">
                 <div>
-                    {{ $choice->choice }} | {{ $point = $poll->totalPoint == 0 ? 0 : $choice->point / $poll->totalPoint * 100; }}%
+                    {{ $choice->choice }} | {{ $point = round($poll->totalPoint == 0 ? 0 : $choice->point / $poll->totalPoint * 100, 2)}}%
                 </div>
-                <div class="bg-primary" style="height: 12px; width: {{ $point }}%"></div>
+                <div class="bg-secondary bg-opacity-10">
+                    <div class="bg-primary" style="height: 12px; width: {{ $point }}%"></div>
+                </div>
             </div>
             @endforeach
             @endcan
