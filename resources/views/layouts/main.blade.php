@@ -20,13 +20,18 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                @can('manage-poll')
                 <ul class="navbar-nav">
+                    @can('manage-poll')
                     <li class="nav-item">
                         <a href="/poll/create" class="nav-link active">Add Poll</a>
                     </li>
+                    @endcan
+                    @can('manage-user')
+                    <li class="nav-item">
+                        <a href="/user/create" class="nav-link active">Register User</a>
+                    </li>
+                    @endcan
                 </ul>
-                @endcan
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a href="/logout" class="nav-link active">Logout</a>

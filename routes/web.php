@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PollController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/poll/create', [PollController::class, 'create']);
     Route::post('/poll', [PollController::class, 'store']);
     Route::post('/poll/{poll:id}/vote', [PollController::class, 'storeVote']);
+
+    Route::get('/user/create', [UserController::class, 'create']);
 
     Route::get('/logout', [AuthController::class, 'logout']);
 });
