@@ -1,3 +1,5 @@
 # YukPilih
 
-A simple voting appe
+A simple voting app
+
+but it's broken and full of bugs
